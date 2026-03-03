@@ -25,16 +25,14 @@ Perché un'azienda dovrebbe adottare questo approccio? Ecco il confronto tra lo 
 
 ---
 
-## 🏗️ Architettura del Sistema
+## 🏗️ Architettura & Flusso Logico (The Blueprints)
+
 L'infrastruttura è modulare, scalabile e pronta per il "Lift & Shift" verso la produzione reale.
 
-
-
-* **Network Layer**: VPC isolata con subnet dedicate (simulata).
-* **Security Layer**: Chiavi KMS personalizzate con policy di rotazione (simulata).
-* **Storage Layer**: S3 Bucket con crittografia *Server-Side* forzata.
-* **Compute Simulation**: Script Python (Boto3) che agisce come un microservizio per validare il flusso dei dati.
-
+1.  **Provisioning (IaC)**: Terraform modula l'infrastruttura definendo un **KMS Key Manager** con policy di accesso "Least Privilege".
+2.  **Encryption Pipeline**: Lo script `vault_test.py` intercetta i dati in chiaro, richiede una *Data Key* a KMS e invia il payload cifrato a S3.
+3.  **Audit & Persistence**: Ogni transazione viene registrata su DynamoDB per garantire la tracciabilità delle operazioni (Audit Log).
+4.  **Local Emulation**: Grazie a LocalStack e Docker, l'intero stack AWS è riprodotto fedelmente, permettendo test d'integrazione senza latenza e a costo zero.
 ---
 
 ## 🛠️ Infrastructure Validation & Deployment Logs
