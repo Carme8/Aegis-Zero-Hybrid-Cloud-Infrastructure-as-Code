@@ -62,7 +62,28 @@ L'infrastruttura è modulare, scalabile e pronta per il "Lift & Shift" verso la 
 
 ## 🚀 Come Replicare l'Ambiente
 
-### 1. Setup Locale
+Segui questa procedura guidata per distribuire l'intera infrastruttura **Aegis-Zero** sul tuo sistema locale in meno di 2 minuti.
+
+### 1. Prerequisiti
+Assicurati di avere installato:
+* **Docker & Docker Compose**
+* **Terraform** (v1.5+)
+* **Python 3.10+** (con libreria `boto3`)
+
+### 2. Setup dell'Ambiente Cloud (Docker)
+Avvia il container **Aegis_Cloud** (basato su LocalStack). Questo comando prepara gli endpoint AWS emulati (S3, KMS, DynamoDB) all'interno di un network isolato.
 ```bash
-# Avvia l'infrastruttura Aegis_Cloud
 docker-compose up -d
+
+
+Inizializza i plugin e i moduli necessari
+terraform init
+
+Crea le risorse AWS simulate (VPC, S3 Vault, KMS Key)
+terraform apply -auto-approve
+
+Validazione del Vault (Python)
+python scripts/vault_test.py
+
+Per spegnere l'ambiente
+docker-compose down
